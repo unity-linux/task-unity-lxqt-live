@@ -1,4 +1,4 @@
-Name:		task-unity-lxqt
+Name:		task-unity-lxqt-live
 Version:	0.1.2
 Release:	40%{?dist}
 Summary:	Metapackage to build a Unity-Linux LXQt install
