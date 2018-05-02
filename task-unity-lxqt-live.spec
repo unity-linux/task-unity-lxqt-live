@@ -77,7 +77,7 @@ fi
 %files
 
 %changelog
-* Wed May 03 2018 Jeremiah Summers <jsummers@glynlyon.com> 0.1.2-42
+* Wed May 02 2018 Jeremiah Summers <jsummers@glynlyon.com> 0.1.2-42
 - Add temp fix for monitor config tool
 
 * Mon Apr 30 2018 Jeremiah Summers <jsummers@glynlyon.com> 0.1.2-41
