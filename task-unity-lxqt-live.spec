@@ -1,6 +1,6 @@
 Name:		task-unity-lxqt-live
 Version:	0.1.2
-Release:	41%{?dist}
+Release:	42%{?dist}
 Summary:	Metapackage to build a Unity-Linux LXQt install
 License:	GPL
 URL:		http://lxqt.org/
@@ -42,6 +42,9 @@ Requires:	grub2-efi
 %endif
 Requires:	dosfstools
 
+#Temp fix for Monitor Settings until requires is updated on lxqt-config package
+Requires:	libkscreen
+
 # We need Icons, but 32M worth?
 Requires:	oxygen-icons5
 Requires:	drakconf
@@ -56,7 +59,7 @@ for a viable desktop environment.
 
 %post
 /usr/bin/systemctl set-default graphical.target
-/usr/bin/systemctl enable lightdm
+/usr/bin/systemctl enable xdm
 if [ `grep -c ^live /etc/passwd` = "0" ]; then
 /usr/sbin/useradd -c 'LiveCD User' -d /home/live -p 'Unity!' -s /bin/bash live
 /usr/bin/passwd -d live
@@ -66,6 +69,7 @@ cp /etc/xdg/openbox/lxqt-rc.xml /home/live/.config/openbox/lxqt-rc.xml
 #For LightDM
 sed -i 's!#autologin-user=!autologin-user=live!g' /etc/lightdm/lightdm.conf
 sed -i 's!#autologin-session=!autologin-session=lxqt!g' /etc/lightdm/lightdm.conf
+sed -i 's!#greeter-setup-script=!greeter-setup-script=/etc/X11/xdm/Xsetup_0!g' /etc/lightdm/lightdm.conf
 chown -R live:live /home/live
 echo "FINISH_INSTALL=yes" > /etc/sysconfig/finish-install
 fi
@@ -73,6 +77,9 @@ fi
 %files
 
 %changelog
+* Wed May 03 2018 Jeremiah Summers <jsummers@glynlyon.com> 0.1.2-42
+- Add temp fix for monitor config tool
+
 * Mon Apr 30 2018 Jeremiah Summers <jsummers@glynlyon.com> 0.1.2-41
 - Remove desktop icon
 - Build as noarch
