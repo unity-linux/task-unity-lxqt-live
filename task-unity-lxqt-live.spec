@@ -1,6 +1,6 @@
 Name:		task-unity-lxqt-live
 Version:	0.1.2
-Release:	42%{?dist}
+Release:	43%{?dist}
 Summary:	Metapackage to build a Unity-Linux LXQt install
 License:	GPL
 URL:		http://lxqt.org/
@@ -67,7 +67,7 @@ mkdir -p /home/live/.config/openbox/
 cp /etc/xdg/openbox/lxqt-rc.xml /home/live/.config/openbox/lxqt-rc.xml
 
 #For LightDM
-sed -i 's!#autologin-user=!autologin-user=live!g' /etc/lightdm/lightdm.conf
+#sed -i 's!#autologin-user=!autologin-user=live!g' /etc/lightdm/lightdm.conf
 sed -i 's!#autologin-session=!autologin-session=lxqt!g' /etc/lightdm/lightdm.conf
 sed -i 's!#greeter-setup-script=!greeter-setup-script=/etc/X11/xdm/Xsetup_0!g' /etc/lightdm/lightdm.conf
 chown -R live:live /home/live
@@ -77,16 +77,19 @@ fi
 %files
 
 %changelog
-* Wed May 02 2018 Jeremiah Summers <jsummers@glynlyon.com> 0.1.2-42
+* Thu May 03 2018 Jeremiah Summers <jmiahman@unity-linux.org> 0.1.2-43
+- Try without autologin
+
+* Wed May 02 2018 Jeremiah Summers <jmiahman@unity-linux.org> 0.1.2-42
 - Add temp fix for monitor config tool
 
-* Mon Apr 30 2018 Jeremiah Summers <jsummers@glynlyon.com> 0.1.2-41
+* Mon Apr 30 2018 Jeremiah Summers <jmiahman@unity-linux.org> 0.1.2-41
 - Remove desktop icon
 - Build as noarch
 
-* Mon Apr 30 2018 Jeremiah Summers <jsummers@glynlyon.com> 0.1.2-40
+* Mon Apr 30 2018 Jeremiah Summers <jmiahman@unity-linux.org> 0.1.2-40
 - Move to own package and use Mageia task package by default
 
-* Sat Apr 21 2018 Jeremiah Summers <jsummers@glynlyon.com> 0.1.2-39
+* Sat Apr 21 2018 Jeremiah Summers <jmiahman@unity-linux.org> 0.1.2-39
 - Update .travis.yml (jeremiah.summers@unity-linux.org)
 - See if we can kick off finish-install
