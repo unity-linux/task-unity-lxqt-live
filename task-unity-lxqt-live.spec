@@ -2,7 +2,7 @@
 %define login_dm lightdm
 Name:		task-unity-lxqt-live
 Version:	0.1.2
-Release:	49%{?dist}
+Release:	50%{?dist}
 Summary:	Metapackage to build a Unity-Linux LXQt install
 License:	GPL
 URL:		http://lxqt.org/
@@ -64,23 +64,27 @@ for a viable desktop environment.
 %post
 target_path=/etc/systemd/system/display-manager.service
 link_path=/usr/lib/systemd/system/%{login_dm}.service
-if [ ! "$link_path" = "$target_path" ]; then
-/usr/bin/systemctl set-default graphical.target
-/usr/bin/systemctl enable %{login_dm}
-   if [ ! -f /etc/sysconfig/desktop ]; then
-      upper_dm=$(echo %{login_dm} | tr [:lower:] [:upper:])
-      echo "DISPLAYMANAGER=$upper_dm" > /etc/sysconfig/desktop
-   fi
+if [ ! "$link_path" = "$(readlink $target_path)" ]; then
+   /usr/bin/systemctl set-default graphical.target
+   /usr/bin/systemctl enable %{login_dm}
 fi
+if [ ! -f /etc/sysconfig/desktop ]; then
+   upper_dm=$(echo %{login_dm} | tr [:lower:] [:upper:])
+   echo "DESKTOP=LXQtDesktop" > /etc/sysconfig/desktop
+   echo "DISPLAYMANAGER=$upper_dm" >> /etc/sysconfig/desktop
+fi
+if [ grep -c '^builder:' /etc/passwd ]; then
 /usr/sbin/userdel builder
-mkdir -p /home/live/.config/openbox/
-cp /etc/xdg/openbox/lxqt-rc.xml /home/live/.config/openbox/lxqt-rc.xml
+fi
 cp -f /usr/share/mklivecd/finish-install /etc/sysconfig/finish-install
 echo "LANGUAGE=no" >> /etc/sysconfig/finish-install
 
 %files
 
 %changelog
+* Fri May 04 2018 Jeremiah Summers <jmiahman@unity-linux.org> 0.1.2-50
+- Try to get autologin to work
+
 * Fri May 04 2018 Jeremiah Summers <jmiahman@unity-linux.org> 0.1.2-49
 - User tr properly
 
