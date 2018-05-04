@@ -1,6 +1,6 @@
 Name:		task-unity-lxqt-live
 Version:	0.1.2
-Release:	45%{?dist}
+Release:	46%{?dist}
 Summary:	Metapackage to build a Unity-Linux LXQt install
 License:	GPL
 URL:		http://lxqt.org/
@@ -10,6 +10,8 @@ Requires:	desktop-common-data
 # components listed at http://wiki.lxde.org/en/Build_LXDE-Qt_From_Source
 BuildRequires:	systemd-devel
 Requires: 	task-lxqt-minimal
+Requires: 	sudo
+Requires: 	autologin
 Requires: 	unity-theme
 Requires: 	unity-theme-grub
 Requires:       qlipper
@@ -69,6 +71,10 @@ echo "LANGUAGE=no" >> /etc/sysconfig/finish-install
 %files
 
 %changelog
+
+* Thu May 03 2018 Jeremiah Summers <jmiahman@unity-linux.org> 0.1.2-46
+- Include sudo and autologin
+
 * Thu May 03 2018 Jeremiah Summers <jmiahman@unity-linux.org> 0.1.2-45
 - Disable language settings on finish-install
 
