@@ -1,6 +1,8 @@
+# Lightdm or xdm avail
+%define login_dm lightdm
 Name:		task-unity-lxqt-live
 Version:	0.1.2
-Release:	46%{?dist}
+Release:	47%{?dist}
 Summary:	Metapackage to build a Unity-Linux LXQt install
 License:	GPL
 URL:		http://lxqt.org/
@@ -60,8 +62,16 @@ This package assures that the minimal needed packages are installed
 for a viable desktop environment.
 
 %post
+target_path=/etc/systemd/system/display-manager.service
+link_path=/usr/lib/systemd/system/%{login_dm}.service
+if [ ! "$link_path" = "$target_path" ]; then
 /usr/bin/systemctl set-default graphical.target
-/usr/bin/systemctl enable xdm
+/usr/bin/systemctl enable %{login_dm}
+   if [ ! -f /etc/sysconfig/desktop ]; then
+      upper_dm=$(echo %{login_dm} | tr '[:upper:]')
+      echo "DISPLAYMANAGER=$upper_dm" > /etc/sysconfig/desktop
+   fi
+fi
 /usr/sbin/userdel builder
 mkdir -p /home/live/.config/openbox/
 cp /etc/xdg/openbox/lxqt-rc.xml /home/live/.config/openbox/lxqt-rc.xml
@@ -71,6 +81,8 @@ echo "LANGUAGE=no" >> /etc/sysconfig/finish-install
 %files
 
 %changelog
+* Fri May 04 2018 Jeremiah Summers <jmiahman@unity-linux.org> 0.1.2-47
+- Try and handle dm more intelligently
 
 * Thu May 03 2018 Jeremiah Summers <jmiahman@unity-linux.org> 0.1.2-46
 - Include sudo and autologin
