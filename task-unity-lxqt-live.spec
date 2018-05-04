@@ -2,7 +2,7 @@
 %define login_dm lightdm
 Name:		task-unity-lxqt-live
 Version:	0.1.2
-Release:	47%{?dist}
+Release:	48%{?dist}
 Summary:	Metapackage to build a Unity-Linux LXQt install
 License:	GPL
 URL:		http://lxqt.org/
@@ -68,7 +68,7 @@ if [ ! "$link_path" = "$target_path" ]; then
 /usr/bin/systemctl set-default graphical.target
 /usr/bin/systemctl enable %{login_dm}
    if [ ! -f /etc/sysconfig/desktop ]; then
-      upper_dm=$(echo %{login_dm} | tr '[:upper:]')
+      upper_dm=${%{login_dm}^^}
       echo "DISPLAYMANAGER=$upper_dm" > /etc/sysconfig/desktop
    fi
 fi
@@ -81,6 +81,9 @@ echo "LANGUAGE=no" >> /etc/sysconfig/finish-install
 %files
 
 %changelog
+* Fri May 04 2018 Jeremiah Summers <jmiahman@unity-linux.org> 0.1.2-48
+- Try and fix uppcase for post script
+
 * Fri May 04 2018 Jeremiah Summers <jmiahman@unity-linux.org> 0.1.2-47
 - Try and handle dm more intelligently
 
