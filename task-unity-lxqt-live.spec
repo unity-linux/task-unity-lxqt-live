@@ -1,6 +1,6 @@
 Name:		task-unity-lxqt-live
 Version:	0.1.2
-Release:	44%{?dist}
+Release:	45%{?dist}
 Summary:	Metapackage to build a Unity-Linux LXQt install
 License:	GPL
 URL:		http://lxqt.org/
@@ -61,17 +61,17 @@ for a viable desktop environment.
 /usr/bin/systemctl set-default graphical.target
 /usr/bin/systemctl enable xdm
 /usr/sbin/userdel builder
-if [ `grep -c ^live /etc/passwd` = "0" ]; then
-/usr/sbin/useradd -c 'LiveCD User' -d /home/live -p 'Unity!' -s /bin/bash live
-/usr/bin/passwd -d live
 mkdir -p /home/live/.config/openbox/
 cp /etc/xdg/openbox/lxqt-rc.xml /home/live/.config/openbox/lxqt-rc.xml
 cp -f /usr/share/mklivecd/finish-install /etc/sysconfig/finish-install
-fi
+echo "LANGUAGE=no" >> /etc/sysconfig/finish-install
 
 %files
 
 %changelog
+* Thu May 03 2018 Jeremiah Summers <jmiahman@unity-linux.org> 0.1.2-45
+- Disable language settings on finish-install
+
 * Thu May 03 2018 Jeremiah Summers <jmiahman@unity-linux.org> 0.1.2-44
 - Remove live user creation and allow finish install to create
 
