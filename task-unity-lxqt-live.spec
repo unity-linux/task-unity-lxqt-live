@@ -2,7 +2,7 @@
 %define login_dm lightdm
 Name:		task-unity-lxqt-live
 Version:	0.1.2
-Release:	50%{?dist}
+Release:	51%{?dist}
 Summary:	Metapackage to build a Unity-Linux LXQt install
 License:	GPL
 URL:		http://lxqt.org/
@@ -64,8 +64,8 @@ for a viable desktop environment.
 %post
 target_path=/etc/systemd/system/display-manager.service
 link_path=/usr/lib/systemd/system/%{login_dm}.service
+/usr/bin/systemctl set-default graphical.target
 if [ ! "$link_path" = "$(readlink $target_path)" ]; then
-   /usr/bin/systemctl set-default graphical.target
    /usr/bin/systemctl enable %{login_dm}
 fi
 if [ ! -f /etc/sysconfig/desktop ]; then
@@ -82,6 +82,9 @@ echo "LANGUAGE=no" >> /etc/sysconfig/finish-install
 %files
 
 %changelog
+* Fri May 04 2018 Jeremiah Summers <jmiahman@unity-linux.org> 0.1.2-51
+- Set default to graphical
+
 * Fri May 04 2018 Jeremiah Summers <jmiahman@unity-linux.org> 0.1.2-50
 - Try to get autologin to work
 
