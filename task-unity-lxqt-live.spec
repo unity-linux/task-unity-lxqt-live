@@ -2,7 +2,7 @@
 %define login_dm lightdm
 Name:		task-unity-lxqt-live
 Version:	0.1.2
-Release:	51%{?dist}
+Release:	52%{?dist}
 Summary:	Metapackage to build a Unity-Linux LXQt install
 License:	GPL
 URL:		http://lxqt.org/
@@ -73,6 +73,9 @@ if [ ! -f /etc/sysconfig/desktop ]; then
    echo "DESKTOP=LXQtDesktop" > /etc/sysconfig/desktop
    echo "DISPLAYMANAGER=$upper_dm" >> /etc/sysconfig/desktop
 fi
+if [ "%{login_dm}" = "lightdm" ]; then
+   echo "autologin-session=lxqt" >> /etc/lightdm/lightdm.conf.d/50-mageia-autologin.conf
+fi
 if [ grep -c '^builder:' /etc/passwd ]; then
 /usr/sbin/userdel builder
 fi
@@ -82,6 +85,9 @@ echo "LANGUAGE=no" >> /etc/sysconfig/finish-install
 %files
 
 %changelog
+* Mon May 07 2018 Jeremiah Summers <jmiahman@unity-linux.org> 0.1.2-52
+- Set autologin to lxqt if used.
+
 * Fri May 04 2018 Jeremiah Summers <jmiahman@unity-linux.org> 0.1.2-51
 - Set default to graphical
 
