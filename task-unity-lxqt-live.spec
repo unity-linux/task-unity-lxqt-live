@@ -2,7 +2,7 @@
 %define login_dm lightdm
 Name:		task-unity-lxqt-live
 Version:	0.1.2
-Release:	53%{?dist}
+Release:	54%{?dist}
 Summary:	Metapackage to build a Unity-Linux LXQt install
 License:	GPL
 URL:		http://lxqt.org/
@@ -76,7 +76,7 @@ fi
 if [ "%{login_dm}" = "lightdm" ]; then
    echo "autologin-session=lxqt" >> /etc/lightdm/lightdm.conf.d/50-mageia-autologin.conf
 fi
-if [ grep -c '^builder:' /etc/passwd ]; then
+if grep '^builder:' /etc/passwd; then
 /usr/sbin/userdel builder
 fi
 echo "#Reset Display manager for autologin" >> /etc/X11/xsetup.d/80-stop-matchbox.xsetup
@@ -87,6 +87,9 @@ echo "LANGUAGE=no" >> /etc/sysconfig/finish-install
 %files
 
 %changelog
+* Mon May 07 2018 Jeremiah Summers <jmiahman@unity-linux.org> 0.1.2-54
+- Fix conditional for removing builduser
+
 * Mon May 07 2018 Jeremiah Summers <jmiahman@unity-linux.org> 0.1.2-53
 - Restart dm for user creation after finish install (autologin).
 
